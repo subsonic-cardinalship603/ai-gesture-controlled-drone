@@ -1,82 +1,101 @@
+# AI-Gesture-Controlled-Drone
+
+This project develops an AI-based hand gesture recognition system designed to control a drone through real-time hand gestures. By leveraging MediaPipe for hand tracking and a custom CNN (Convolutional Neural Network) for classification, the system translates physical movements into drone commands (e.g., takeoff, land, movement) without the need for traditional controllers.
+
+---
+
 ## Project Overview
 
-This project develops an **AI-based hand gesture recognition system** that allows users to control a drone using hand gestures detected by a camera. The system uses computer vision and deep learning to recognize gestures and convert them into drone control commands such as takeoff, landing, and directional movement.
+The system features a hybrid pipeline that combines precise hand landmark detection with specialized binary image classification to ensure robust performance across various lighting conditions and backgrounds.
 
-The goal of this project is to create a **natural and contactless human–machine interaction system** where drones can be controlled without traditional remote controllers.
+### Key Features:
+- **Dual-Model Pipeline**: Uses MediaPipe for hand localization and a custom TFLite model for gesture classification.
+- **Binary Processing**: Converts hand crops to black-and-white (binary) to focus on morphology rather than skin tone.
+- **Apple Silicon Optimized**: Performance-tuned for Apple M5 chips using XNNPACK delegates.
 
 ---
 
 ## Dataset
 
-The gesture recognition model in this project is trained using the **Hand Gesture Recognition Dataset** from Kaggle.
+The model is trained on a specialized version of the Hand Gesture Recognition Dataset.
 
-Dataset link:  
-[Hand Gesture Recognition Dataset](https://www.kaggle.com/datasets/aryarishabh/hand-gesture-recognition-dataset)
-
-### Dataset Information
-
-- Total images: **24,000**
-- Total gesture classes: **20**
-- Training images per class: **900**
-- Testing images per class: **300**
-
-The dataset contains images of different hand gestures captured under various lighting conditions and backgrounds, making it suitable for training deep learning models for gesture classification tasks.
-
-The dataset includes multiple hand gesture categories such as **thumbs up, thumbs down, stop, directional pointing gestures, and peace signs**, which are commonly used for gesture-based interaction systems.
-
----
-
-## Development Approach
-
-The system follows the workflow below:
-
-1. Collect and prepare the gesture dataset.
-2. Train a gesture recognition model using deep learning.
-3. Convert the trained model to a lightweight format for real-time inference.
-4. Detect gestures from live camera input.
-5. Map recognized gestures to drone control commands.
+- **Source**: [Hand Gesture Recognition Dataset (Kaggle)](https://www.kaggle.com/datasets/aryarishabh/hand-gesture-recognition-dataset)
+- **Total Images**: 24,000 (18,000 Train / 6,000 Test)
+- **Classes**: 20 distinct gesture categories (0-19)
+- **Input Specs**: 96x96 pixels, Grayscale (Single Channel)
 
 ---
 
 ## System Pipeline
+
+The following workflow describes the real-time inference process:
+
 ```
-Camera Input
+Camera Input (RGB)
 ↓
-Hand Gesture Recognition Model
+MediaPipe Hand Landmarker (Hand Localization)
 ↓
-Gesture Classification
+Crop & Preprocess (Grayscale + Otsu's Thresholding)
 ↓
-Command Mapping
+Custom CNN Model (96x96x1 TFLite)
 ↓
-Drone Control
+Gesture Classification (20 Classes)
+↓
+Drone Command Mapping
 ```
 
-Example gesture commands:
+### Gesture Command Mapping (Example)
 
-| Gesture | Drone Command |
-|-------|---------------|
-| 👍 | Takeoff |
-| 👎 | Land |
-| ✋ | Stop |
-| 👉 | Move Right |
-| 👈 | Move Left |
+
+| Gesture (ID) | Command | Description |
+| :--- | :--- | :--- |
+| **OK (0)** | **Takeoff** | Start the motors and hover. |
+| **Fist (11)** | **Land** | Secure landing at current position. |
+| **Point (10)** | **Forward** | Move the drone forward. |
+| **Rock (17)** | **Flip** | Perform a 360 degree stunt flip. |
 
 ---
 
 ## Technologies Used
 
-- Python
-- OpenCV
-- TensorFlow / TensorFlow Lite
-- Computer Vision
-- Edge AI / TinyML
-- Drone SDK (e.g., DJI Tello)
+- **Python 3.11**: Core development language.
+- **MediaPipe**: For high-fidelity hand landmark detection.
+- **TensorFlow / Keras**: Used for training the CNN classifier.
+- **TensorFlow Lite**: For lightweight, real-time edge inference.
+- **OpenCV**: For advanced image preprocessing and binary thresholding.
+- **XNNPACK**: Optimized CPU inference for Apple M5.
+
+---
+
+## How to Use
+
+### 1. Environment Setup
+Activate the virtual environment and install dependencies:
+```bash
+source venv_detect/bin/activate
+pip install mediapipe tensorflow opencv-python numpy
+```
+### 2. Required Models
+Before running the detection, you must download the official MediaPipe model:
+- **Hand Landmarker Bundle**: Download the `hand_landmarker.task` file from the [MediaPipe Official Models](https://ai.google.dev) page.
+- **Placement**: Ensure `hand_landmarker.task` is placed in the project root directory.
+
+### 3. Training the Model
+To retrain the classifier using the grayscale binary approach:
+```bash
+python train_model.py
+```
+
+### 4. Running Real-Time Detection
+Execute the main detection script:
+```bash
+python gesture_detection.py
+```
 
 ---
 
 ## Future Improvements
+- **Drone SDK Integration**: Connecting the command outputs to DJI Tello or ArduPilot.
+- **3D Gesture Tracking**: Utilizing Z-axis data from MediaPipe for altitude control.
+- **Robustness**: Adding more background-noise augmentation to the binary training set.
 
-- Improve gesture recognition accuracy
-- Implement real-time tracking using MediaPipe
-- Deploy the model on embedded edge devices
-- Integrate autonomous drone navigation
