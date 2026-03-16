@@ -132,13 +132,13 @@ For autonomous or semi-autonomous drones (e.g., custom builds with Pixhawk or Be
 
 ### Proposed Gesture-to-Command Mapping
 
-
 | Gesture (Folder ID) | Drone Command | Action Description |
 | :--- | :--- | :--- |
-| **Folder_0 (OK)** | **Takeoff** | Initiate motor start and hover at 1m altitude. |
-| **Folder_3 (Fist)** | **Land** | Perform a controlled vertical landing. |
-| **Folder_2 (Point)** | **Move Forward** | Pitch forward at a constant speed. |
-| **Folder_9 (Rock)** | **Flip** | Execute a 360-degree acrobatic flip. |
+| **Folder_5** | **Takeoff** | Start the motors and hover at 1m altitude. |
+| **Folder_11** | **Land** | Perform a controlled vertical landing. |
+| **Folder_0** | **Stop / Hover** | Stop all movement and hover in place. |
+| **Folder_1** | **Move Up** | Increase drone altitude (Fly Upward). |
+| **Folder_12** | **Move Down** | Decrease drone altitude (Fly Downward). |
 
 ---
 
