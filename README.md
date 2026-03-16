@@ -114,3 +114,35 @@ python gesture_detection.py
 - **3D Gesture Tracking**: Utilizing Z-axis data from MediaPipe for altitude control.
 - **Robustness**: Adding more background-noise augmentation to the binary training set.
 
+## Drone Integration Strategy (Future Work)
+
+The trained TFLite model is designed to be integrated into drone systems using two primary architectural approaches:
+
+### 1. Ground Control Station (GCS) Mode
+This is the most accessible method for drones like the **DJI Tello**.
+- **Workflow**: The drone streams live video via Wi-Fi to a laptop (Ground Station). The laptop runs `gesture_detection.py` using its CPU/GPU (optimized for Apple Silicon).
+- **Command Transmission**: Recognized gestures are translated into SDK commands (e.g., `tello.takeoff()`, `tello.land()`) and sent back to the drone over the same Wi-Fi network.
+- **Tools**: `djitellopy` library for Python-based drone control.
+
+### 2. Onboard Edge AI Mode
+For autonomous or semi-autonomous drones (e.g., custom builds with Pixhawk or Betaflight).
+- **Hardware**: Mounting a lightweight companion computer such as a **Raspberry Pi 4** or **NVIDIA Jetson Nano** on the drone.
+- **Efficiency**: Since the model is in **.tflite** format, it is highly optimized for these edge devices.
+- **Communication**: The companion computer processes the camera feed locally and sends MAVLink commands to the Flight Controller (FC) via a serial connection.
+
+### Proposed Gesture-to-Command Mapping
+
+
+| Gesture (Folder ID) | Drone Command | Action Description |
+| :--- | :--- | :--- |
+| **Folder_0 (OK)** | **Takeoff** | Initiate motor start and hover at 1m altitude. |
+| **Folder_3 (Fist)** | **Land** | Perform a controlled vertical landing. |
+| **Folder_2 (Point)** | **Move Forward** | Pitch forward at a constant speed. |
+| **Folder_9 (Rock)** | **Flip** | Execute a 360-degree acrobatic flip. |
+
+---
+
+## Technical Challenges to Address
+- **Latency Control**: Optimizing the Wi-Fi video stream to minimize command delay.
+- **Safety Interlocks**: Implementing a "Command Confirmation" logic (e.g., gesture must be held for 0.5s) to prevent accidental maneuvers.
+- **Dynamic Lighting**: Enhancing binary thresholding stability for outdoor environments.
