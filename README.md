@@ -15,6 +15,14 @@ The system features a hybrid pipeline that combines precise hand landmark detect
 
 ---
 
+## Model Performance
+The model was trained for 20 epochs using a CNN architecture:
+- **Training Accuracy**: 98.46%
+- **Validation Accuracy**: 99.30%
+- **Input Format**: 96x96 Grayscale Binary Image
+
+---
+
 ## Dataset
 
 The model is trained on a specialized version of the Hand Gesture Recognition Dataset.
